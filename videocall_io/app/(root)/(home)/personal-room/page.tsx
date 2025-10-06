@@ -37,19 +37,25 @@ const PersonalRoom = () => {
   const {call} = useGetCallById(meetingId!);
 
   const startRoom = async () => {
-    if(!client || !user)  return ;
+    if (!client || !user) {
+      toast.error("User or client not ready");
+      return;
+    }
 
     const newCall = client.call("default", meetingId!);
 
-    if (!call) {
-      await newCall.getOrCreate({
-        data: {
-          starts_at: new Date().toISOString(),
-        },
-      });
+    try {
+      if (!call) {
+        await newCall.getOrCreate({
+          data: {
+            starts_at: new Date().toISOString(),
+          },
+        });
+      }
+      router.push(`/meeting/${meetingId}?personal=true`);
+    } catch (err) {
+      toast.error("Failed to create or join the meeting. Please try again.");
     }
-
-    router.push(`/meeting/${meetingId}?personal=true`);
   };
 
 

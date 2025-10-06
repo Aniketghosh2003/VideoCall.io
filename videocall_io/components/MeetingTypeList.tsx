@@ -102,6 +102,20 @@ const MeetingTypeList = () => {
   };
   const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetail?.id}`;
 
+  // Helper to handle joining meeting
+  const handleJoinMeeting = () => {
+    if (!values.link || values.link.trim() === "") {
+      toast.error("Please enter a meeting link or ID");
+      return;
+    }
+    let link = values.link.trim();
+    // If only an ID is entered, construct the path
+    if (!link.startsWith("http") && !link.startsWith("/meeting/")) {
+      link = `/meeting/${link}`;
+    }
+    router.push(link);
+  };
+
 
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -189,10 +203,10 @@ const MeetingTypeList = () => {
         title="Type the link here"
         className="text-center"
         buttonText="Join Meeting"
-        handleClick={() => router.push(values.link)}
+        handleClick={handleJoinMeeting}
       >
         <Input
-          placeholder="Meeting link"
+          placeholder="Meeting link or ID"
           onChange={(e) => setValues({ ...values, link: e.target.value })}
           className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
         />

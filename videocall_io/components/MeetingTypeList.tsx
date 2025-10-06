@@ -103,7 +103,7 @@ const MeetingTypeList = () => {
   const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetail?.id}`;
 
   // Helper to handle joining meeting
-  const handleJoinMeeting = () => {
+  const handleJoinMeeting = async () => {
     if (!values.link || values.link.trim() === "") {
       toast.error("Please enter a meeting link or ID");
       return;
@@ -113,7 +113,14 @@ const MeetingTypeList = () => {
     if (!link.startsWith("http") && !link.startsWith("/meeting/")) {
       link = `/meeting/${link}`;
     }
-    router.push(link);
+    // Try navigation, then close modal and reset input
+    try {
+      await router.push(link);
+      setMeetingState(undefined);
+      setValues((prev) => ({ ...prev, link: "" }));
+    } catch (e) {
+      toast.error("Failed to join meeting. Invalid link or meeting does not exist.");
+    }
   };
 
 

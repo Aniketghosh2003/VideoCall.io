@@ -109,17 +109,26 @@ const MeetingTypeList = () => {
       return;
     }
     let link = values.link.trim();
-    // If only an ID is entered, construct the path
-    if (!link.startsWith("http") && !link.startsWith("/meeting/")) {
+
+    // Logic Fix: Handle full URLs (with or without http)
+    if (link.includes("/meeting/")) {
+      // Split the link by '/meeting/' and take the last part (the ID)
+      const pathPart = link.split("/meeting/")[1];
+      link = `/meeting/${pathPart}`;
+    } else if (!link.startsWith("/")) {
+      // If it doesn't look like a path, assume it's just the ID
       link = `/meeting/${link}`;
     }
-    // Try navigation, then close modal and reset input
+
+    // Try navigation
     try {
       await router.push(link);
       setMeetingState(undefined);
       setValues((prev) => ({ ...prev, link: "" }));
     } catch (e) {
-      toast.error("Failed to join meeting. Invalid link or meeting does not exist.");
+      toast.error(
+        "Failed to join meeting. Invalid link or meeting does not exist."
+      );
     }
   };
 

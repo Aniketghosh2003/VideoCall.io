@@ -32,16 +32,35 @@ const UpcomingMeetingBanner = () => {
     ? new Date(nextCall.state.startsAt)
     : null;
 
-  const timeString = startsAt
-    ? startsAt.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    : "";
+  if (!startsAt) {
+    return (
+      <h2 className="glassmorphism max-w-[273px] rounded py-2 text-center text-base font-normal">
+        No upcoming meeting
+      </h2>
+    );
+  }
+
+  const now = new Date();
+  const isToday =
+    startsAt.getFullYear() === now.getFullYear() &&
+    startsAt.getMonth() === now.getMonth() &&
+    startsAt.getDate() === now.getDate();
+
+  const timeString = startsAt.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const dateString = isToday
+    ? "Today"
+    : startsAt.toLocaleDateString("en-US", {
+        month: "short",
+        day: "2-digit",
+      });
 
   return (
     <h2 className="glassmorphism max-w-[273px] rounded py-2 text-center text-base font-normal">
-      {timeString ? `Upcoming Meeting at: ${timeString}` : "No upcoming meeting"}
+      {`Upcoming Meeting: ${dateString} at ${timeString}`}
     </h2>
   );
 };

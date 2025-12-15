@@ -7,7 +7,7 @@ const UpcomingMeetingBanner = () => {
 
   if (isLoading) {
     return (
-      <h2 className="glassmorphism max-w-[273px] rounded py-2 text-center text-base font-normal">
+      <h2 className="glassmorphism max-w-[340px] rounded py-2 text-center text-base font-normal">
         Loading upcoming meeting...
       </h2>
     );
@@ -15,7 +15,7 @@ const UpcomingMeetingBanner = () => {
 
   if (!upcomingCalls || upcomingCalls.length === 0) {
     return (
-      <h2 className="glassmorphism max-w-[273px] rounded py-2 text-center text-base font-normal">
+      <h2 className="glassmorphism max-w-[340px] rounded py-2 text-center text-base font-normal">
         No upcoming meeting
       </h2>
     );
@@ -34,7 +34,7 @@ const UpcomingMeetingBanner = () => {
 
   if (!startsAt) {
     return (
-      <h2 className="glassmorphism max-w-[273px] rounded py-2 text-center text-base font-normal">
+      <h2 className="glassmorphism max-w-[340px] rounded py-2 text-center text-base font-normal">
         No upcoming meeting
       </h2>
     );
@@ -59,7 +59,7 @@ const UpcomingMeetingBanner = () => {
       });
 
   return (
-    <h2 className="glassmorphism max-w-[273px] rounded py-2 text-center text-base font-normal">
+    <h2 className="glassmorphism max-w-[340px] rounded py-2 text-center text-base font-normal">
       {`Upcoming Meeting: ${dateString} at ${timeString}`}
     </h2>
   );
